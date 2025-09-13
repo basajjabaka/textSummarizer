@@ -6,8 +6,9 @@ from pathlib import Path
 import logging
 from typing import Any
 from TextSummarizer.logging import logger
+from ensure import ensure_annotations
 
-
+@ensure_annotations
 def read_yaml(yamlPath: Path) -> ConfigBox:
     """Reads a yaml file with 
 
@@ -21,7 +22,6 @@ def read_yaml(yamlPath: Path) -> ConfigBox:
     Returns:
         ConfigBox: ConfigBox object containing the yaml file contents
     """
-    assert isinstance(yamlPath, Path), "yamlPath must be a Path object"
 
     try:
         with open(yamlPath, "r") as yamlFile:
@@ -33,7 +33,7 @@ def read_yaml(yamlPath: Path) -> ConfigBox:
     except Exception as e:
         raise e
     
-
+@ensure_annotations
 def create_directories(pathToDirectories: list, verbose=True):
     """Creates a list of directories
 
@@ -41,13 +41,12 @@ def create_directories(pathToDirectories: list, verbose=True):
         pathToDirectories (list): List of paths to create
         ignoreLog (bool, optional): ignore if multiple directories are created. Defaults to false
     """
-    assert isinstance(pathToDirectories, list), "pathToDirectories must be a list"
     for path in pathToDirectories:
         os.makedirs(path, exist_ok=True)
         if verbose:
             logger.info(f"Created directory at: {path}")
 
-
+@ensure_annotations
 def getSize(path: Path) -> str:
     """get size in KB
 
@@ -57,6 +56,5 @@ def getSize(path: Path) -> str:
     Returns:
         str: size in KB
     """
-    assert isinstance(path, Path), "path must be a Path object"
     sizeInKB = round(os.path.getsize(path)/1024)
     return f"~ {sizeInKB} KB"
