@@ -1,7 +1,7 @@
 from TextSummarizer.constants import *
 from TextSummarizer.utils.common import read_yaml, create_directories
 from pathlib import Path
-from TextSummarizer.entity import DataIngestionConfig
+from TextSummarizer.entity import DataIngestionConfig, DataValidationConfig
 
 class ConfigManager:
     def __init__(self,
@@ -23,3 +23,16 @@ class ConfigManager:
         )
 
         return data_ingestion_config
+    
+    def get_data_validation_config(self) -> DataValidationConfig:
+        config = self.config.data_validation
+
+        create_directories([config.root_dir])
+
+        data_validation_config = DataValidationConfig(
+            root_dir=Path(config.root_dir),
+            STATUS_FILE=config.STATUS_FILE,
+            RQD_FILE=config.RQD_FILE
+        )
+
+        return data_validation_config
